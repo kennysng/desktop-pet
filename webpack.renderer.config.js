@@ -3,8 +3,13 @@ const plugins = require('./webpack.plugins');
 
 rules.push({
   test: /\.css$/,
-  use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+  use: ['style-loader', 'css-loader'],
 });
+
+rules.push({
+  test: /\.s[ac]ss$/i,
+  use: ["style-loader", "css-loader", "sass-loader"],
+},)
 
 module.exports = {
   module: {

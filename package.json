@@ -85,6 +85,8 @@
     "webpack": "^5.74.0"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "pixi.js": "^6.5.1",
+    "sass-loader": "^13.0.2"
   }
 }
