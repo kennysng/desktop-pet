@@ -13,11 +13,16 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+let mainWindow: BrowserWindow;
+
 const createWindow = (): void => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     height: 600,
     width: 800,
+    frame: false,
+    transparent: true,
+    resizable: false,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
@@ -41,7 +46,10 @@ app.on('ready', () => {
     callback(filePath);
   });
 
-  createWindow()
+  createWindow();
+
+  // register ipc events
+  require('./electronAPI')(mainWindow)
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -49,6 +57,7 @@ app.on('ready', () => {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    mainWindow = undefined;
     app.quit();
   }
 });
