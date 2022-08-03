@@ -13,16 +13,26 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-let mainWindow: BrowserWindow;
+let mainWindow: BrowserWindow, tray: Tray;
 
 const createWindow = (): void => {
+  // Create the tray icon.
+  tray = new Tray(resolve(__dirname, '..', 'assets', 'favicon.png'));
+  const contextMenu = Menu.buildFromTemplate([
+    { label: 'Exit', type: 'normal', click: app.quit },
+  ])
+  tray.setContextMenu(contextMenu);
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    height: 600,
-    width: 800,
+    height: 0,
+    width: 0,
+    x: 0,
+    y: 0,
     frame: false,
-    transparent: true,
     resizable: false,
+    transparent: true,
+    skipTaskbar: true,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
