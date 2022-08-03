@@ -1,3 +1,7 @@
 export interface IConfig {
-  pet?: string
+  pet?: string;
+}
+
+export interface IPet {
+  
 }

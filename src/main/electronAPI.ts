@@ -1,8 +1,27 @@
 import { app, BrowserWindow, ipcMain } from "electron";
-import { readFile, lstat } from 'fs/promises';
+import { lstat } from 'fs/promises';
 import { resolve } from "path";
-import { parse } from 'yaml';
-import { IConfig } from "./interface";
+import { IConfig, IPet } from "./interface";
+
+async function loadPet(name: string): Promise<IPet> {
+  const appPath = app.getAppPath();
+  let petPath = resolve(appPath, 'pets', name);
+  try {
+    lstat(petPath);
+    return require(resolve(petPath, 'index.json'));
+  }
+  catch (e) {
+    try {
+      const docPath = app.getPath('documents');
+      petPath = resolve(docPath, 'desktop-pets', name);
+      lstat(petPath);
+      return require(resolve(petPath, 'index.json'));
+    }
+    catch (e) {
+      // TODO
+    }
+  }
+}
 
 export default async (mainWindow: BrowserWindow) => {
   ipcMain.on('set-window-position', (event, { x, y }) => {
@@ -13,15 +32,15 @@ export default async (mainWindow: BrowserWindow) => {
     mainWindow.setSize(w, h);
   });
 
-  const configPath = resolve(app.getPath('userData'), 'config.yaml')
-  let config: IConfig
+  const configPath = resolve(app.getPath('userData'), 'config.config');
+  let config: IConfig;
   try {
-    lstat(configPath)
-    config = parse(await readFile(configPath, 'utf8'));
+    lstat(configPath);
+    config = JSON.parse(require(configPath));
   }
   catch (e) {
-    config = {}
+    config = {};
   }
 
-  mainWindow.webContents.send('get-pet', config.pet || 'cat');
+  mainWindow.webContents.send('get-pet', await loadPet(config.pet || 'cat'));
 }
