@@ -1,11 +1,14 @@
-const { readdirSync } = require('fs')
+const { readdirSync, lstatSync } = require('fs')
 const { resolve } = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const rules = require('./webpack.rules');
 const plugins = require('./webpack.plugins');
 
 const folders = readdirSync(resolve(__dirname, 'assets'))
-  .filter(folder => readdirSync(resolve(__dirname, 'assets', folder)).length)
+  .filter(folder => {
+    const file = resolve(__dirname, 'assets', folder)
+    return lstatSync(file).isFile() || readdirSync(file).length
+  })
 
 module.exports = {
   module: {
