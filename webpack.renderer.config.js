@@ -26,12 +26,14 @@ module.exports = {
   },
   plugins: [
     ...plugins,
-    new CopyWebpackPlugin({
-      patterns: folders.map(asset => ({
-        from: resolve(__dirname, 'assets', asset),
-        to: resolve(__dirname, '.webpack/assets', asset)
-      }))
-    })
+    ...[
+      folders.length && new CopyWebpackPlugin({
+        patterns: folders.map(asset => ({
+          from: resolve(__dirname, 'assets', asset),
+          to: resolve(__dirname, '.webpack/assets', asset)
+        }))
+      })
+    ].filter(Boolean)
   ],
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
