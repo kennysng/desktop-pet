@@ -129,6 +129,7 @@
     "@pixi/utils": "^6.5.1",
     "electron-squirrel-startup": "^1.0.0",
     "pixi.js": "^6.5.1",
-    "reset-css": "^5.0.1"
+    "reset-css": "^5.0.1",
+    "yaml": "^2.1.1"
   }
 }

@@ -28,5 +28,6 @@
 
 import './electronAPI';
 import './index.scss';
+import { DesktopPet } from './lib/Pet';
 
-console.log('👋 This message is being logged by "renderer.js", included via webpack');
+window.electronAPI.getPet(pet => new DesktopPet().start(pet));
