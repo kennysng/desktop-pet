@@ -28,6 +28,6 @@
 
 import './electronAPI';
 import './index.scss';
-import { DesktopPet } from './lib/Pet';
+import { DesktopPet } from './lib/DesktopPet';
 
 window.electronAPI.getPet(pet => new DesktopPet().start(pet));

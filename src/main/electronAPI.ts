@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import { lstat } from 'fs/promises';
 import { resolve } from "path";
-import { IConfig, IPet } from "./interface";
+import { IConfig, IPet } from "../interface";
 
 async function loadPet(name: string): Promise<IPet> {
   const appPath = app.getAppPath();

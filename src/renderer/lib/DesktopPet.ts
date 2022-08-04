@@ -1,5 +1,5 @@
 import { Application } from 'pixi.js';
-import { IPet } from '../../main/interface';
+import { IPet } from '../../interface';
 
 export class DesktopPet {
   private app?: Application;
