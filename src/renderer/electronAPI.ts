@@ -1,11 +1,12 @@
-import { IPet } from "../interface";
+import { IConfig, IPet } from '../interface';
 
 declare global {
   interface Window {
     electronAPI: {
-      getPet(callback: (pet: IPet) => void): void;
-      setWindowPosition(position: { x: number; y: number }): void;
-      setWindowSize(size: { w: number; h: number }): void;
+      setWindowPosition(position: { x: number; y: number }): Promise<boolean>;
+      setWindowSize(size: { w: number; h: number }): Promise<boolean>;
+      getConfig(): Promise<IConfig>;
+      setPet(name: string): Promise<IPet>;
     }
   }
 }

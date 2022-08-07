@@ -1,7 +1,8 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { lstat } from 'fs/promises';
-import { resolve } from "path";
-import { IConfig, IPet } from "../interface";
+import { resolve } from 'path';
+import { IPet } from '../interface';
+import { Config } from './config';
 
 async function loadPet(name: string): Promise<IPet> {
   const appPath = app.getAppPath();
@@ -23,24 +24,15 @@ async function loadPet(name: string): Promise<IPet> {
   }
 }
 
-export default async (mainWindow: BrowserWindow) => {
-  ipcMain.on('set-window-position', (event, { x, y }) => {
+export default async (mainWindow: BrowserWindow, config: Config) => {
+  // get app config
+  ipcMain.handle('get-config', async () => ({ result: config.toJson() }));
+
+  // when pet move
+  ipcMain.handle('set-window-position', (event, { x, y }) => {
     mainWindow.setPosition(x, y);
+    return { result: true };
   });
 
-  ipcMain.on('set-window-size', (event, { w, h }) => {
-    mainWindow.setSize(w, h);
-  });
-
-  const configPath = resolve(app.getPath('userData'), 'config.config');
-  let config: IConfig;
-  try {
-    lstat(configPath);
-    config = JSON.parse(require(configPath));
-  }
-  catch (e) {
-    config = {};
-  }
-
-  mainWindow.webContents.send('get-pet', await loadPet(config.pet || 'cat'));
+  mainWindow.webContents.send('pet', await loadPet(config.pet));
 }

@@ -7,10 +7,12 @@ export class DesktopPet {
   start(pet: IPet) {
     const app = this.app = new Application({ resolution: devicePixelRatio, resizeTo: window });
     document.body.appendChild(app.view);
+    return this;
   }
 
   destroy() {
     this.app.destroy()
     this.app = undefined;
+    return this;
   }
 }
