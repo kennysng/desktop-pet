@@ -1,5 +1,14 @@
 import { ISpritesheetData } from 'pixi.js';
 
+export enum LogType {
+  VERBOSE = 'verbose',
+  LOG = 'log',
+  INFO = 'info',
+  WARN = 'warn',
+  ERROR = 'error',
+  FATAL = 'fatal',
+}
+
 export class MyError extends Error {
   constructor(private readonly result: IFailResult) {
     super(result.error);
