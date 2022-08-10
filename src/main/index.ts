@@ -13,12 +13,11 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 const argv = minimist(process.argv.slice(2));
 const debug = process.env.NODE_ENV !== 'production' || argv.debug || argv.D;
-const verbose = debug || argv.log || argv.L;
 
 // enable sqlite verbose mode
 if (debug) sqliteVerbose();
 
-const logger = new Logger(debug, verbose);
+const logger = new Logger(debug);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {

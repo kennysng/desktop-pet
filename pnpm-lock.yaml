@@ -57,6 +57,7 @@ specifiers:
   eslint: ^8.21.0
   eslint-plugin-import: ^2.26.0
   fork-ts-checker-webpack-plugin: ^7.2.13
+  markdown-table: ^3.0.2
   minimist: ^1.2.6
   node-loader: ^2.0.0
   pixi.js: ^6.5.1
@@ -108,6 +109,7 @@ dependencies:
   '@pixi/utils': 6.5.1_rh5pi7xzpltsgqq4zj3zezcvlm
   electron-squirrel-startup: 1.0.0
   electron-unhandled: 4.0.1
+  markdown-table: 3.0.2
   minimist: 1.2.6
   pixi.js: 6.5.1
   reset-css: 5.0.1
@@ -4768,6 +4770,10 @@ packages:
     dependencies:
       p-defer: 1.0.0
     dev: true
+
+  /markdown-table/3.0.2:
+    resolution: {integrity: sha512-y8j3a5/DkJCmS5x4dMCQL+OR0+2EAq3DOtio1COSHsmW2BGXnNCK3v12hJt1LrUz5iZH5g0LmuYOjDdI+czghA==}
+    dev: false
 
   /matcher/3.0.0:
     resolution: {integrity: sha512-OkeDaAZ/bQCxeFAozM55PKcKU0yJMPGifLwV4Qgjitu+5MoAfSQN4lsLJeXZ1b8w0x+/Emda6MZgXS1jvsapng==}

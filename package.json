@@ -131,6 +131,7 @@
     "@pixi/utils": "^6.5.1",
     "electron-squirrel-startup": "^1.0.0",
     "electron-unhandled": "^4.0.1",
+    "markdown-table": "^3.0.2",
     "minimist": "^1.2.6",
     "pixi.js": "^6.5.1",
     "reset-css": "^5.0.1",
