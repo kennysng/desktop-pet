@@ -2,7 +2,8 @@ import { LogType } from "../../interface";
 import { cleanObj } from "../../utils";
 import { markdownTable } from 'markdown-table';
 import { format, InspectOptions } from "util";
-import { Log } from "./SqliteLogger";
+import { Log, SqliteLogger } from "./SqliteLogger";
+import { FileLogger } from "./FileLogger";
 
 export enum LogMode {
   console = 'console',
@@ -10,7 +11,101 @@ export enum LogMode {
   file = 'file',
 }
 
+const loggers: Record<LogMode, Console> = {
+  [LogMode.console]: console,
+  [LogMode.sqlite]: new SqliteLogger(),
+  [LogMode.file]: new FileLogger(),
+}
+
 export class Logger implements Console {
+  constructor(private readonly modes: LogMode[] = []) {}
+
+  get loggers() {
+    if (!this.modes) return [loggers[LogMode.file]];
+    return this.modes.map(mode => loggers[mode]);
+  }
+
+  // @override
+  assert(condition?: boolean, ...data: any[]): void;
+  assert(value: any, message?: string, ...optionalParams: any[]): void;
+  assert(value?: any, message?: string, ...optionalParams: any[]) {
+    for (const logger of this.loggers) {
+      logger.assert(value, message, ...optionalParams);
+    }
+  }
+
+  // @override
+  clear() {
+    for (const logger of this.loggers) {
+      logger.clear();
+    }
+  }
+
+  // @override
+  count(label?: string) {
+    for (const logger of this.loggers) {
+      logger.count(label);
+    }
+  }
+
+  // @override
+  countReset(label = 'default') {
+    for (const logger of this.loggers) {
+      logger.countReset(label);
+    }
+  }
+
+  // @override
+  debug(message?: any, ...optionalParams: any[]) {
+    for (const logger of this.loggers) {
+      logger.debug(message, ...optionalParams);
+    }
+  }
+
+  // @override
+  dir(obj: any, options?: InspectOptions) {
+    for (const logger of this.loggers) {
+      logger.dir(obj, options);
+    }
+  }
+
+  // @override
+  dirxml(...data: any[]) {
+    for (const logger of this.loggers) {
+      logger.dirxml(...data);
+    }
+  }
+
+  // @override
+  error(message?: any, ...optionalParams: any[]) {
+    for (const logger of this.loggers) {
+      logger.error(message, ...optionalParams);
+    }
+  }
+
+  // @override
+  group(...labels: string[]) {
+    for (const logger of this.loggers) {
+      logger.group(labels);
+    }
+  }
+
+  // @override
+  groupCollapsed(...labels: string[]) {
+    for (const logger of this.loggers) {
+      logger.groupCollapsed(labels);
+    }
+  }
+
+  // @override
+  groupEnd() {
+    for (const logger of this.loggers) {
+      logger.groupEnd();
+    }
+  }
+}
+
+class Logger2 implements Console {
   private static readonly queue: Log[] = [];
   private static readonly counter: Record<string, number> = {};
   private static readonly timer: Record<string, number> = {};
