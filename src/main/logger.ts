@@ -1,26 +1,10 @@
 import { markdownTable } from 'markdown-table';
-import sqlite from 'sqlite3';
 import { cleanObj } from '../utils';
 import { format, InspectOptions } from 'util';
 import { Console } from 'inspector';
-import { ConsoleConstructor } from 'console';
+import { LogType } from '../interface';
 
-let sqlite_ = sqlite;
-
-export function sqliteVerbose() {
-  sqlite_ = sqlite_.verbose()
-}
-
-enum LogType {
-  VERBOSE = 'verbose',
-  LOG = 'log',
-  INFO = 'info',
-  WARN = 'warn',
-  ERROR = 'error',
-  FATAL = 'fatal',
-}
-
-enum LogMode {
+export enum LogMode {
   console = 'console',
   sqlite = 'sqlite',
   file = 'file',

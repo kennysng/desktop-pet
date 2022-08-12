@@ -1,4 +1,5 @@
 import { ISpritesheetData } from 'pixi.js';
+import { LogMode } from './main/logger';
 
 export enum LogType {
   VERBOSE = 'verbose',
@@ -7,6 +8,15 @@ export enum LogType {
   WARN = 'warn',
   ERROR = 'error',
   FATAL = 'fatal',
+}
+
+export interface Log {
+  type: LogType;
+  indent?: number;
+  group?: string;
+  message: string;
+  stack?: string;
+  createdAt: string;
 }
 
 export class MyError extends Error {
@@ -20,6 +30,8 @@ export class MyError extends Error {
 }
 
 export abstract class IConfig {
+  console?: boolean;
+  log?: LogMode;
   pet: string;
 }
 
